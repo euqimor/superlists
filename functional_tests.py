@@ -1,4 +1,5 @@
 from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
 import unittest
 
 class NewVisitorTest(unittest.TestCase):
@@ -15,18 +16,27 @@ class NewVisitorTest(unittest.TestCase):
 
         #Unsurprisingly, he notices the page title and header mention to-do lists.
         self.assertIn('To-Do', self.browser.title)
-        self.fail('Finish the test!')
+        headerText = self.browser.find_element_by_tag_name('h1')
+        self.assertIn('To-Do', headerText)
 
         #He is invited to enter a to-do item straight away.
+        inputBox = self.browser.find_element_by_id('id_new_item')
+        self.assertEqual('Enter a to-do item', inputBox.get_attribute('placeholder'))
 
         #He types "Buy fresh virgin blood online" as his first entry.
+        inputBox.send_keys('Buy fresh virgin blood online')
 
         #When he hits enter, the page updates, and now the page lists:
         #"1: Buy fresh virgin blood online".
+        inputBox.send_keys(Keys.ENTER)
+
+        table = self.browser.find_element_by_id('id_list_table')
+        rows = table.find_elements_by_tag_name('tr')
+        self.assertTrue(any(row.text == '1: Buy fresh virgin blood online' for row in rows))
 
         #There's still a text box inviting him to enter another item.
         #He enters "Sharpen the teeth".
-
+        self.fail('Finish the test!')
         #The page updates again and now shows both items on the list.
 
         #Dracula is concerned if the site will remember his to-do list. Then he notices that the site has generated
