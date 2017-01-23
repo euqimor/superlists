@@ -36,12 +36,19 @@ class NewVisitorTest(unittest.TestCase):
 
         #There's still a text box inviting him to enter another item.
         #He enters "Sharpen the teeth".
-        self.fail('Finish the test!')
+        inputBox = self.browser.find_element_by_id('id_new_item')
+        inputBox.send_keys('Sharpen the teeth')
+        inputBox.send_keys(Keys.ENTER)
+
         #The page updates again and now shows both items on the list.
+        table = self.browser.find_element_by_id('id_list_table')
+        rows = table.find_elements_by_tag_name('tr')
+        self.assertIn('1: Buy fresh virgin blood online', [row.text for row in rows])
+        self.assertIn('2: Sharpen the teeth', [row.text for row in rows])
 
         #Dracula is concerned if the site will remember his to-do list. Then he notices that the site has generated
         #a unique URL for him. There's some text explaining that on the page.
-
+        self.fail('Finish the test!')
         #Dracula opens that link in a new window and sees that all his entries are still in place.
 
         #Satisfied, he goes back to sleep.
