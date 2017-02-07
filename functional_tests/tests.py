@@ -54,6 +54,7 @@ class NewVisitorTest(LiveServerTestCase):
 
         ## We are using a new browser session to make sure that no information
         ## leaks from previous user's session via cookies etc.
+        self.browser.refresh()
         self.browser.quit()
         self.browser = webdriver.Firefox()
 
@@ -104,6 +105,6 @@ class NewVisitorTest(LiveServerTestCase):
             512,
             delta=5
         )
-        
+
         # Satisfied, they both go back to sleep
    # self.fail('Finish the test!')
