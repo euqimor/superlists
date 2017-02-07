@@ -81,5 +81,29 @@ class NewVisitorTest(LiveServerTestCase):
         self.assertNotIn('Sharpen the teeth', page_text)
         self.assertIn('1: Buy military-grade wooden stakes', page_text)
 
+    def test_layout_and_styling(self):
+        #Cinderella goes to the home page
+        self.browser.get(self.live_server_url)
+        self.browser.set_window_size(1024, 768)
+
+        #She notices the input box is nicely centered
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        self.assertAlmostEqual(
+            7 + #width of the left browser border
+            inputbox.location['x'] + inputbox.size['width'] / 2,
+            512,
+            delta=5
+        )
+
+        #She starts a new list and notices the input field is nicely centered on that page too
+        inputbox.send_keys('testing\n')
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        self.assertAlmostEqual(
+            7 +  # width of the left browser border
+            inputbox.location['x'] + inputbox.size['width'] / 2,
+            512,
+            delta=5
+        )
+        
         # Satisfied, they both go back to sleep
    # self.fail('Finish the test!')
